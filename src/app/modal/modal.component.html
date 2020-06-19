@@ -1,0 +1,94 @@
+<ng-template #content let-modal>
+    <ng-container *ngIf="!changeModel && !loader">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Shorten URL</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="urlDetails">
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Domain</span>
+                        </div>
+                        <input id="title" class="form-control" aria-label="Username" aria-describedby="basic-addon1" readonly>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Paste Long URL</span>
+                    </div>
+                    <textarea class="form-control" formControlName="url" aria-label="With textarea"></textarea>
+                </div>
+                <br>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <!-- {{obj.title}} {{obj.type}} {{obj.content}} {{obj.mentorInst}} -->
+            <button type="button" class="btn btn-outline-dark" (click)="createUrl();" [disabled]="!urlDetails.valid">Create short url</button>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="changeModel && !loader">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Shorten URL</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Domain</span>
+                    </div>
+                    <input id="title" class="form-control" aria-label="Username" aria-describedby="basic-addon1" readonly>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Shortened URL</span>
+                </div>
+                <input class="form-control" [value]="shortUrl" aria-label="Username" aria-describedby="basic-addon1" readonly>
+            </div>
+            <br>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Customize URl</span>
+                </div>
+                <input class="form-control" [(ngModel)]="shortUrlEnd" aria-label="Username" aria-describedby="basic-addon1">
+                <br>
+            </div>
+            <span>It's not mandatory to customize</span>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cross click')" [disabled]="!urlDetails.valid">No Thanks</button>
+            <button type="button" class="btn btn-outline-dark" (click)="createCustomUrl();modal.close('save click')" [disabled]="shortUrlEnd==''">Create Custom url</button>
+            <!-- {{obj.title}} {{obj.type}} {{obj.content}} {{obj.mentorInst}} -->
+        </div>
+    </ng-container>
+    <ng-container *ngIf="loader">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Shorten URL</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+</button>
+        </div>
+        <div class="modal-body text-center">
+            <div class="lds-roller">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+
+    </ng-container>
+</ng-template>
+<button class="btn btn-secondary mt-1 button1" (click)="open(content)">Create New URL</button>
+<!-- <button class="add" (click)="open(content)"><fa-icon  [icon]="faPlusCircle" size="2x"></fa-icon></button> modal.close('save click');-->

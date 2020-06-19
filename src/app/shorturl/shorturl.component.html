@@ -1,0 +1,61 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="row ml-1 mb-2 linkcard" style="border-radius: 5px;background-color: #dadada;">
+                <div class="col-lg-12 p-2 text-center" *ngIf="loader">
+                    <div class="lds-roller">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+                <div class="col-lg-6 p-3 font-weight-bold" *ngIf="!loader">Links (<span class=" mt-1" style="color:#F27723">{{urls.length}}</span>)</div>
+                <div class="col-lg-6 p-2 text-right" *ngIf="!loader"> <span><app-modal></app-modal></span></div>
+            </div>
+            <br>
+            <div class="row ml-1 linkcard mb-3" *ngFor="let item of urls;let i = index" style="border-radius: 5px;border: 1px solid #dadada;cursor: pointer;">
+                <div class="col-lg-12 p-2 ml-3" (click)="displayContent(i)">
+                    <div class="row">
+                        <div class="col-lg-1"><input type="checkbox"></div>
+                        <div class="col-lg-10">{{item.url| slice:0:25}}...</div>
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-7" style="color: #F27723;">{{item.short_url}}</div>
+                        <div class="col-lg-3 text-right font-weight-bold"> {{item.count}}
+                            <fa-icon [icon]="faChartBar"></fa-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-7 p-3 ml-5 linkcard" style="border-radius: 5px;border: 1px solid #dadada;" *ngIf="selectedUrl!=null">
+            <div class="row">
+                <div class="col-lg-12 ml-3 ">
+                    <p>Created &nbsp;&nbsp;&nbsp;<span class="text-muted" style="font-size: 0.8rem; ">{{selectedUrl['timestamp']|date:'medium'}}</span> |<span style="color: #4caad6; "> {{userData.firstName}} {{userData.lastName}} </span></p>
+                    <h2>{{selectedUrl.url|slice:0:50}}...</h2>
+                    <p class="text-muted">{{selectedUrl.url}}</p>
+                    <br>
+                    <h5 style="color: #F27723;">{{selectedUrl.short_url}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <button class="btn btn-outline-warning btn-sm pl-2 pr-2" (click)="copyToClipboard(selectedUrl.short_url)"><fa-icon [icon]="faClone"></fa-icon> copy</button>&nbsp;&nbsp;
+                        <button
+                            class="btn btn-outline-warning btn-sm pl-2 pr-2" (click)="copyToClipboard(selectedUrl.short_url)">
+                            <fa-icon [icon]="faClone"></fa-icon> Edit</button> &nbsp;&nbsp;<span *ngIf="copiedAlert" style="color:#F27723" [ngClass]="{'disappear':animate}"> Copied to the clipboard!</span></h5>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>{{selectedUrl.count}}
+                        <fa-icon [icon]="faChartBar"></fa-icon>
+                    </h3>
+                    <h5 class="text-muted">Total Clicks</h5>
+                </div>
+            </div>
+        </div>
+    </div>
