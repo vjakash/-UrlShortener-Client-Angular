@@ -17,12 +17,12 @@
                         <div></div>
                     </div>
                 </div>
-                <div class="col-lg-6 p-3 font-weight-bold" *ngIf="!loader">Links (<span class=" mt-1" style="color:#F27723">{{urls.length}}</span>)</div>
+                <div class="col-lg-6 p-3 font-weight-bold" *ngIf="!loader">Links (<span class=" mt-1" style="color:#F27723">{{serv.urls.length}}</span>)</div>
                 <div class="col-lg-6 p-2 text-right" *ngIf="!loader"> <span><app-modal></app-modal></span></div>
             </div>
             <br>
             <div class="row ml-1 linkcard mb-3" *ngFor="let item of serv.urls;let i = index" style="border-radius: 5px;border: 1px solid #dadada;cursor: pointer;">
-                <div class="col-lg-12 p-2 ml-3" (click)="displayContent(i)">
+                <div class="col-lg-12 p-2 ml-3" (click)="displayContent(i)" *ngIf="!loader">
                     <div class="row">
                         <div class="col-lg-1"><input type="checkbox"></div>
                         <div class="col-lg-10">{{item.url| slice:0:25}}...</div>
