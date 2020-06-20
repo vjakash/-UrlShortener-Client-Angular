@@ -2,12 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ServerservService {
-  constructor(private http: HttpClient) {}
+  urls = [];
+  selectedUrl;
+  constructor(private http: HttpClient,private router: Router) {
+    this.getUrlsByEmail();
+  }
   login(data): Observable<any> {
     return this.http.post(`${environment.url}/login`, data);
   }
@@ -20,21 +25,7 @@ export class ServerservService {
   sendVerifictionMail(data): Observable<any> {
     return this.http.post(`${environment.url}/forgot`, data);
   }
-  // updateResetValInService(data){
-  //   localStorage.setItem('resetToken',data['token'])
-  //   localStorage.setItem('resetEmail',data['email'])
-  //   localStorage.setItem('expiry',data['expiry'])
-  //   localStorage.setItem('timestamp',data['timestamp'])
-  // }
-  // getResetDataFromLocalStorage(){
-  //   let data={
-  //     resetToken:localStorage.getItem('resetToken'),
-  //     resetEmail:localStorage.getItem('resetEmail'),
-  //     expiry:localStorage.getItem('expiry'),
-  //     timestamp:localStorage.getItem('timestamp')
-  //   }
-  //   return data;
-  // }
+
   resetPassword(data): Observable<any> {
     return this.http.post(`${environment.url}/resetpassword`, data);
   }
@@ -61,30 +52,68 @@ export class ServerservService {
   deleteToken() {
     localStorage.removeItem('token');
   }
+  updateSelectedUrl(index) {
+    this.selectedUrl = this.urls[index].short_url;
+  }
+
   getUserData(): Observable<any> {
-    let token=this.getToken();
-    return this.http.post(`${environment.url}/getuserdata`,{email:localStorage.getItem('email')},{
-      headers:new HttpHeaders({
-        'authorization':token
-      })
-    });
+    let token = this.getToken();
+    return this.http.post(
+      `${environment.url}/getuserdata`,
+      { email: localStorage.getItem('email') },
+      {
+        headers: new HttpHeaders({
+          authorization: token,
+        }),
+      }
+    );
   }
-  createShortUrl(data){
-    console.log(data);
-    let token=this.getToken();
-    return this.http.post(`${environment.url}/shortenurl`,{email:localStorage.getItem('email'),url:data.url},{
-      headers:new HttpHeaders({
-        'authorization':token
-      })
-    });
+  getUrlsByEmail() {
+    let token = this.getToken();
+    this.http
+      .post(
+        `${environment.url}/geturlsbyemail`,
+        { email: localStorage.getItem('email') },
+        {
+          headers: new HttpHeaders({
+            authorization: token,
+          }),
+        }
+      )
+      .subscribe((data) => {
+        // console.log(data);
+        this.urls = <any>data;
+      },(err)=>{
+        alert(err.error.message);
+        this.removeCurrentEmail();
+        this.deleteToken();
+        this.router.navigate(["/"]);
+      });
   }
-  createCustomUrl(oldUrl,newUrl){
-    console.log(oldUrl,newUrl)
-    let token=this.getToken();
-    return this.http.post(`${environment.url}/createcustomurl`,{email:localStorage.getItem('email'),oldUrl,newUrl},{
-      headers:new HttpHeaders({
-        'authorization':token
-      })
-    });
+  createShortUrl(data) {
+    // console.log(data);
+    let token = this.getToken();
+    return this.http.post(
+      `${environment.url}/shortenurl`,
+      { email: localStorage.getItem('email'), url: data.url },
+      {
+        headers: new HttpHeaders({
+          authorization: token,
+        }),
+      }
+    );
+  }
+  createCustomUrl(oldUrl, newUrl) {
+    console.log(oldUrl, newUrl);
+    let token = this.getToken();
+    return this.http.post(
+      `${environment.url}/createcustomurl`,
+      { email: localStorage.getItem('email'), oldUrl, newUrl },
+      {
+        headers: new HttpHeaders({
+          authorization: token,
+        }),
+      }
+    );
   }
 }

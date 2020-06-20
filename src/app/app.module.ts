@@ -19,6 +19,10 @@ import { MaindisplayComponent } from './maindisplay/maindisplay.component';
 import { ModalComponent } from './modal/modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { ModaleditComponent } from './modaledit/modaledit.component';
+import { ToastContainerComponent } from './toast-container/toast-container.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +34,9 @@ import { FormsModule } from '@angular/forms';
     DashboardComponent,
     ShorturlComponent,
     MaindisplayComponent,
-    ModalComponent
+    ModalComponent,
+    ModaleditComponent,
+    ToastContainerComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +45,8 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     FontAwesomeModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [AuthGuard,{provide: LocationStrategy,useClass:HashLocationStrategy}],
   bootstrap: [AppComponent]

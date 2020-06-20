@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ServerservService } from '../serverserv.service';
+import { ToastService } from '../toast.service';
 
 @Component({
   selector: 'app-forgot',
@@ -16,7 +17,7 @@ export class ForgotComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private serv: ServerservService
+    private serv: ServerservService,private toastService: ToastService
   ) {
     this.findAccount = this.fb.group({
       email: this.fb.control('', [Validators.required, Validators.email]),
@@ -37,7 +38,8 @@ export class ForgotComponent implements OnInit {
         },
         (err) => {
           this.loader=false;
-          alert(err.error.message);
+          // alert(err.error.message);
+          this.showDanger(err.error.message)
         }
       );
     }else{
@@ -51,13 +53,32 @@ export class ForgotComponent implements OnInit {
       this.loader=false;
       this.accountDetails=null;
       // console.log(data);
-      alert(data['message']);
+      // alert(data['message']);
+      this.showSuccess(data['message']);
       this.accountDetails=null;
       // this.serv.updateResetValInService(data);
     },(err)=>{
       this.loader=false;
-      alert(err.error.message);
+      // alert(err.error.message);
+      this.showDanger(err.error.message);
     });
     
+  }
+  showStandard(msg) {
+    this.toastService.show(msg);
+  }
+
+  showSuccess(msg) {
+    this.toastService.show(msg, {
+      classname: 'bg-success text-light',
+      delay: 2000,
+    });
+  }
+
+  showDanger(msg) {
+    this.toastService.show(msg, {
+      classname: 'bg-danger text-light',
+      delay: 5000,
+    });
   }
 }

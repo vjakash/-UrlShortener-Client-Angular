@@ -1,33 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ServerservService } from '../serverserv.service';
 import { Router } from '@angular/router';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css'],
+  selector: 'app-modaledit',
+  templateUrl: './modaledit.component.html',
+  styleUrls: ['./modaledit.component.css'],
 })
-export class ModalComponent implements OnInit {
+export class ModaleditComponent implements OnInit {
+  faPencilAlt=faPencilAlt;
+  @Input('selectedUrl') selectedUrl;
   closeResult = '';
   urlDetails;
-  changeModel = false;
+  shortUrl ='';
+  shortUrlEnd = '';
+  finished=false;
   loader = false;
   success=-1;
-  shortUrl = '';
-  shortUrlEnd = '';
   message="It's not mandatory to customize URL";
-  finished=false;
+
   constructor(
     private modalService: NgbModal,
     private fb: FormBuilder,
     private serv: ServerservService,
     private router: Router
   ) {
-    this.urlDetails = this.fb.group({
-      url: this.fb.control('', [Validators.required]),
-    });
+    // console.log(this.serv.selectedUrl);
+    this.shortUrl=this.serv.selectedUrl;
+    this.shortUrlEnd=this.serv.selectedUrl.split("/")[this.serv.selectedUrl.split("/").length-1];
   }
 
   ngOnInit(): void {}
@@ -56,27 +59,10 @@ export class ModalComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-  createUrl() {
-    this.loader = true;
-    console.log('createUrl');
-    this.serv.createShortUrl(this.urlDetails.value).subscribe(
-      (data) => {
-        this.loader = false;
-        console.log(data);
-        this.shortUrl = data['short_url'];
-        this.shortUrlEnd = data['short_url'].split('/')[
-          data['short_url'].split('/').length - 1
-        ];
-        console.log(this.shortUrl, this.shortUrlEnd);
-        this.changeModel = true;
-        this.serv.getUrlsByEmail();
-      },
-      (err) => {
-        console.log(err);
-        alert(err.error.message);
-        this.router.navigate(['/']);
-      }
-    );
+  update() {
+    this.serv.getUrlsByEmail();
+    this.shortUrl = '';
+    this.shortUrlEnd = '';
   }
   createCustomUrl() {
     this.loader = true;
@@ -90,24 +76,16 @@ export class ModalComponent implements OnInit {
         this.serv.getUrlsByEmail();
         this.finished=true;
         this.success=1;
+
       },
       (err) => {
+        this.success=0;
         this.loader = false;
         console.log(err);
-        this.success=0;
         this.message=err.error["message"];
         // alert(err.error.message+" try any other url");
       }
     );
   }
-  update() {
-    this.serv.getUrlsByEmail();
-    this.changeModel = false;
-    this.loader = false;
-    this.shortUrl = '';
-    this.shortUrlEnd = '';
-    this.urlDetails = this.fb.group({
-      url: this.fb.control('', [Validators.required]),
-    });
-  }
+
 }
