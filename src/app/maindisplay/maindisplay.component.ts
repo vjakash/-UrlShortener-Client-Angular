@@ -85,7 +85,8 @@ export class MaindisplayComponent implements OnInit, AfterViewInit {
     let data = [];
 
     this.serv.urls.forEach((item) => {
-      label.push(item.short_url);
+
+      label.push(item.short_url.split("/")[item.short_url.split("/").length-1]);
       data.push(item.count);
     });
 
