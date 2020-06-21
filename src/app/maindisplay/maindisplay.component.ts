@@ -43,8 +43,8 @@ export class MaindisplayComponent implements OnInit, AfterViewInit {
           this.chartData.push(item.count);
           // temp.push([item.short_url, item.count]);
           this.totalHit += parseInt(item.count);
-          this.load();
         });
+        this.load();
       },
       (err) => {
         console.log(err);
