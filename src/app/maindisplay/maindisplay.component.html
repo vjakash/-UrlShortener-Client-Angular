@@ -52,7 +52,7 @@
     <div class="row text-center">
         <div class="col-lg-12 text-center">
             <div>
-                <canvas #canvas id="canvas" height="50" width="150" [hidden]="loader && !userData.isVerified"></canvas>
+                <canvas #canvas id="canvas" height="50" width="150" [hidden]="loader && !userData.isVerified && serv.urls.length==0"></canvas>
             </div>
         </div>
     </div>
