@@ -22,7 +22,8 @@ import { FormsModule } from '@angular/forms';
 import { ModaleditComponent } from './modaledit/modaledit.component';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { GoogleChartsModule } from 'angular-google-charts';
+import { NgChartjsModule } from 'ng-chartjs';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FontAwesomeModule,
     NgbModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    GoogleChartsModule,
+    NgChartjsModule
   ],
   providers: [AuthGuard,{provide: LocationStrategy,useClass:HashLocationStrategy}],
   bootstrap: [AppComponent]

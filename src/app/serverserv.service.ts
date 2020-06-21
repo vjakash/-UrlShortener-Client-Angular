@@ -84,7 +84,7 @@ export class ServerservService {
         // console.log(data);
         this.urls = <any>data;
       },(err)=>{
-        alert(err.error.message);
+        // alert(err.error.message);
         this.removeCurrentEmail();
         this.deleteToken();
         this.router.navigate(["/"]);
