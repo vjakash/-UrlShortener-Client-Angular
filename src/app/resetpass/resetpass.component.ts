@@ -45,7 +45,7 @@ export class ResetpassComponent implements OnInit {
           }
         },
         (err) => {
-          // alert(err.error.message);
+          alert(err.error.message);
           this.showDanger(err.error.message);
           // console.log('here');
           this.router.navigate(['/']);
