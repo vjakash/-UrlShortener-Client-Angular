@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // url:"http://localhost:3000"
-  url:"https://xsu.herokuapp.com"
+  url:"http://localhost:3000"
+  // url:"https://xsu.herokuapp.com"
 };
 
 /*

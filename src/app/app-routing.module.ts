@@ -24,8 +24,7 @@ const routes: Routes = [{
   component:ForgotComponent
 },{
   path:"resetpassword/:token/:email",
-  component:ResetpassComponent,
-  // canActivate:[ResetpageGuard]
+  component:ResetpassComponent
 },{
   path:"verifyaccount/:token/:email",
   component:VerificationComponent,

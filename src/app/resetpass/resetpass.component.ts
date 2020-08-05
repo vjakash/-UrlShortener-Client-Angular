@@ -11,7 +11,7 @@ import { ToastService } from '../toast.service';
 })
 export class ResetpassComponent implements OnInit {
   newPassword;
-  loader = false;
+  loader = true;
   valid = false;
   match = true;
   constructor(
@@ -32,25 +32,29 @@ export class ResetpassComponent implements OnInit {
       )
       .subscribe(
         (data) => {
+         
           let timeStamp: Date = new Date(data['timestamp']);
           let currentTimeStamp: Date = new Date();
           let diff: any = Math.abs(
             timeStamp.valueOf() - currentTimeStamp.valueOf()
           );
-          console.log(diff);
+          console.log('diff',diff);
+          this.loader=false;
           if (parseInt(data['expiry']) < diff) {
+            console.log("inside expiry");
             // alert('Reset Link expired,try resting again ');
             this.showDanger('Reset Link expired,try resting again ');
             this.router.navigate(['forgot']);
           }
         },
         (err) => {
+          this.loader=false;
           alert(err.error.message);
           this.showDanger(err.error.message);
-          // console.log('here');
-          this.router.navigate(['/']);
+          // this.router.navigate(['/']);
         }
-      );
+        );
+        console.log('here');
     this.newPassword = this.fb.group({
       email: this.activatedRoute.snapshot.params.email,
       token: this.activatedRoute.snapshot.params.token,

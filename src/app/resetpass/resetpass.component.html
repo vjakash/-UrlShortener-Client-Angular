@@ -1,5 +1,5 @@
 <div class="container-fluid text-center bg-dark text-white">
-    <h1 routerLink="/" style="cursor: pointer;">Cloud Stack</h1>
+    <h1 style="cursor: pointer;">Cloud Stack</h1>
     <!-- Toaster Container componet -->
     <app-toast-container aria-live="polite" aria-atomic="true"></app-toast-container>
     <!--  -->
@@ -11,7 +11,7 @@
     <div class="row mt-5">
 
     </div>
-    <div class="row mt-5 text-center">
+    <div class="row mt-5 text-center" *ngIf="loader">
         <div class="col-lg-12 mt-5 text-center">
             <div class="lds-roller">
                 <div></div>
